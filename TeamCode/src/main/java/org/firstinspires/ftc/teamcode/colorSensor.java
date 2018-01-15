@@ -32,47 +32,40 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
 
 
-@TeleOp(name="armDown", group="Team5214")
+@TeleOp(name="colorSensor", group="Team5214")
 //@Disabled
-public class armDown extends LinearOpMode {
+public class colorSensor extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private Servo colorServo;
+    ColorSensor colorFront;
+    ColorSensor colorBack;
+
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        colorServo  = hardwareMap.get(Servo.class, "COLORSERVO");
-        colorServo.setDirection(DcMotor.Direction.FORWARD);
 
+        colorFront  = hardwareMap.get(ColorSensor.class, "CF");
+        colorBack = hardwareMap.get(ColorSensor.class, "CB");
+        
         waitForStart();
         runtime.reset();
 
-
         while (opModeIsActive()) {
 
-            arm(.25);
-            telemetry.update();
-        }
-    }
-    private void arm(double position) {
-        colorServo.setPosition(position);
-    }
-    private void sleep(int i){
-        long initial_time = System.currentTimeMillis();
-        while(System.currentTimeMillis()-initial_time <i){
 
+            telemetry.update();
         }
     }
 }
