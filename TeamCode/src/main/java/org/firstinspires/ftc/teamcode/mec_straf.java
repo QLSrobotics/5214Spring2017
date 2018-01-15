@@ -6,11 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-/**
- * Created by hima on 1/10/18.
- */
-
 public class mec_straf extends LinearOpMode{
     private DcMotor leftFront;
     private DcMotor rightFront;
