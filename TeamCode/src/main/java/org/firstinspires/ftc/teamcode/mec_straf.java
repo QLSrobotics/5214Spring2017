@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@TeleOp(name="mec_straf", group="Team5214")
+//@Disabled
 public class mec_straf extends LinearOpMode{
     private DcMotor leftFront;
     private DcMotor rightFront;
@@ -16,7 +18,7 @@ public class mec_straf extends LinearOpMode{
     private Servo clawFrontServo;
     private Servo clawColour;
 
-
+    @Override
     public void runOpMode (){
         leftFront = hardwareMap.dcMotor.get("LF");
         rightFront = hardwareMap.dcMotor.get("RF");
