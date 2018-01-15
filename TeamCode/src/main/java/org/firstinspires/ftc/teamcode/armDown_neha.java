@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -14,7 +15,7 @@ public class armDown_neha extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor colorServo;
+    private Servo colorServo;
 
 
     @Override
@@ -22,8 +23,8 @@ public class armDown_neha extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        colorServo  = hardwareMap.get(DcMotor.class, "COLORSERVO");
-        colorServo.setDirection(DcMotor.Direction.FORWARD);
+        colorServo  = hardwareMap.get(Servo.class, "COLORSERVO");
+        colorServo.setDirection(Servo.Direction.FORWARD);
 
 
         waitForStart();
@@ -31,7 +32,7 @@ public class armDown_neha extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            arm(0.5, 700);
+            arm(.25); //arm up, arm down is .75
             telemetry.update();
         }
     }
@@ -42,9 +43,7 @@ public class armDown_neha extends LinearOpMode {
 
         }
     }
-    private void arm(double power, int time){
-        colorServo.setPower(power);
-        sleep(time);
-        colorServo.setPower(0);
+    private void arm(double position){
+        colorServo.setPosition(position);
     }
 }
