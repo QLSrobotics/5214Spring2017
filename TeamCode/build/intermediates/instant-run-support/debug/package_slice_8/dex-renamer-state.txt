@@ -1,0 +1,4 @@
+#Mon Jan 15 14:45:52 PST 2018
+base.0=/Users/nehapant/Documents/GitHub/5214Spring2017/TeamCode/build/intermediates/transforms/dexMerger/debug/8
+path.0=classes.dex
+renamed.0=classes.dex

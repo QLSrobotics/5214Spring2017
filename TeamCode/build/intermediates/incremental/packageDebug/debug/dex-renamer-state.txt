@@ -1,0 +1,19 @@
+#Mon Jan 15 14:45:54 PST 2018
+path.1=classes.dex
+path.0=classes.dex
+renamed.5=classes6.dex
+renamed.4=classes5.dex
+renamed.3=classes4.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.5=/Users/nehapant/Documents/GitHub/5214Spring2017/TeamCode/build/intermediates/transforms/dexMerger/debug/12
+base.4=/Users/nehapant/Documents/GitHub/5214Spring2017/TeamCode/build/intermediates/transforms/dexMerger/debug/14
+base.3=/Users/nehapant/Documents/GitHub/5214Spring2017/TeamCode/build/intermediates/transforms/dexMerger/debug/11
+base.2=/Users/nehapant/Documents/GitHub/5214Spring2017/TeamCode/build/intermediates/transforms/dexMerger/debug/16
+base.1=/Users/nehapant/Documents/GitHub/5214Spring2017/TeamCode/build/intermediates/transforms/dexMerger/debug/13
+base.0=/Users/nehapant/Documents/GitHub/5214Spring2017/TeamCode/build/intermediates/transforms/dexMerger/debug/15
+path.5=classes.dex
+path.4=classes.dex
+path.3=classes.dex
+path.2=classes.dex
