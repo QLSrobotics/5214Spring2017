@@ -40,37 +40,40 @@ import com.qualcomm.robotcore.util.Range;
 
 
 
-@TeleOp(name="armDown", group="Team5214")
+@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
 //@Disabled
-public class armDown extends LinearOpMode {
+public class dump extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private Servo colorServo;
+    private Servo leftDump;
+    private Servo rightDump;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        colorServo  = hardwareMap.get(Servo.class, "COLORSERVO");
+        leftDump  = hardwareMap.get(Servo.class, "LD");
+        rightDump = hardwareMap.get(Servo.class, "RD");
 
         waitForStart();
         runtime.reset();
 
-
+        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            arm(.25);
+
             telemetry.update();
         }
     }
-    private void arm(double position) {
-        colorServo.setPosition(position);
+    private void dump(double leftActive, double rightActive, double leftRest, double rightRest) {
+        leftDump.setPosition(leftActive);
+        rightDump.setPosition(rightActive);
     }
-    private void sleep(int i){
+    private void sleep(int i) {
         long initial_time = System.currentTimeMillis();
-        while(System.currentTimeMillis()-initial_time <i){
+        while(System.currentTimeMillis()-initial_time <i) {
 
         }
     }
