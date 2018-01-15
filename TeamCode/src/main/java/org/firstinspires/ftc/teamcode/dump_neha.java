@@ -32,30 +32,27 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
 @Disabled
-public class colorSensor_neha extends LinearOpMode {
+public class dump_neha extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    ColorSensor colorFront;
-    ColorSensor colorBack;
+    private Servo leftDump = null;
+    private Servo rightDump = null;
 
     @Override
     public void runOpMode() {
-
+        telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
-        colorFront  = hardwareMap.get(ColorSensor.class, "CSF");
-        colorBack = hardwareMap.get(ColorSensor.class, "CBF");
+        leftDump  = hardwareMap.get(Servo.class, "LD");
+        rightDump = hardwareMap.get(Servo.class, "RD");
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -64,8 +61,20 @@ public class colorSensor_neha extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-
             telemetry.update();
+        }
+    }
+
+    private void dump(double activeLD, double restLD, double activeRD, double restRD){
+        leftDump.setPosition(activeLD);
+        rightDump.setPosition(activeRD);
+        //activeLD = .15, restLD = .7, activeRD = .85, restRD = .3
+    }
+
+    private void sleep(int i){
+        long initial_time = System.currentTimeMillis();
+        while(System.currentTimeMillis()-initial_time <i){
+
         }
     }
 }

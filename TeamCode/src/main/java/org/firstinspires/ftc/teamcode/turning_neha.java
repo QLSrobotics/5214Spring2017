@@ -32,30 +32,38 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
-@Disabled
-public class colorSensor_neha extends LinearOpMode {
+//@Disabled
+public class turning_neha extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    ColorSensor colorFront;
-    ColorSensor colorBack;
+    private DcMotor leftBack;
+    private DcMotor rightBack;
+    private DcMotor leftFront;
+    private DcMotor rightFront;
 
     @Override
     public void runOpMode() {
-
+        telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
-        colorFront  = hardwareMap.get(ColorSensor.class, "CSF");
-        colorBack = hardwareMap.get(ColorSensor.class, "CBF");
+        leftBack  = hardwareMap.get(DcMotor.class, "LB");
+        rightBack = hardwareMap.get(DcMotor.class, "RB");
+        leftFront  = hardwareMap.get(DcMotor.class, "LF");
+        rightFront = hardwareMap.get(DcMotor.class, "RF");
+
+
+        // Most robots need the motor on one side to be reversed to drive forward
+        // Reverse the motor that runs backwards when connected directly to the battery
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -64,8 +72,27 @@ public class colorSensor_neha extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-
             telemetry.update();
         }
     }
+
+    private void turn(double power, int time){ //left turn is positive power
+        leftBack.setPower(-power);
+        leftFront.setPower(-power);
+        rightBack.setPower(power);
+        rightFront.setPower(power);
+        sleep(time);
+        leftBack.setPower(0);
+        leftFront.setPower(0);
+        rightBack.setPower(0);
+        rightFront.setPower(0);
+    }
+
+    private void sleep(int i){
+        long initial_time = System.currentTimeMillis();
+        while(System.currentTimeMillis()-initial_time <i){
+
+        }
+    }
 }
+
