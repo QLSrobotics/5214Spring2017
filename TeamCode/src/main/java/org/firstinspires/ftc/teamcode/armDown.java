@@ -66,6 +66,7 @@ public class armDown extends LinearOpMode {
         }
     }
     private void arm(double position) {
+
         colorServo.setPosition(position);
     }
     private void sleep(int i){

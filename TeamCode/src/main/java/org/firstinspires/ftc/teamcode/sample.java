@@ -79,8 +79,11 @@ public class sample extends LinearOpMode {
         colorFront  = hardwareMap.get(ColorSensor.class, "CF");
         colorBack = hardwareMap.get(ColorSensor.class, "CB");
 
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        //drive motor directions
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
         runtime.reset();
@@ -91,5 +94,31 @@ public class sample extends LinearOpMode {
             telemetry.update();
         }
     }
-    
+    private void driveStraight (double power, int time) {
+        leftBack.setPower(power);
+        rightBack.setPower(power);
+        leftFront.setPower(power);
+        rightFront.setPower(power);
+
+        sleep(time);
+
+        leftBack.setPower(0);
+        rightBack.setPower(0);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+    }
+    private void dump(double leftActive, double rightActive, double leftRest, double rightRest) {
+        leftDump.setPosition(leftActive);
+        rightDump.setPosition(rightActive);
+    }
+    private void arm(double position) {
+
+        colorServo.setPosition(position);
+    }
+    private void sleep(int i){
+        long initial_time = System.currentTimeMillis();
+        while(System.currentTimeMillis()-initial_time <i){
+
+        }
+    }
 }
