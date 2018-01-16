@@ -1,6 +1,22 @@
 {
     "logs": [
         {
+            "outputFile": "/Users/aliva/Documents/GitHub/5214Spring2017/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v14/values-v14.xml",
+            "map": [
+                {
+                    "source": "/Users/aliva/.gradle/caches/transforms-1/files-1.1/RobotCore-release.aar/8edaf1112d6b2cabe84b790b465d2315/res/values-v14/values-v14.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "4",
+                        "endColumns": "12",
+                        "endOffsets": "201"
+                    }
+                }
+            ]
+        },
+        {
             "outputFile": "/Users/William/Developer/AndroidApplication/5214Spring2017/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v14/values-v14.xml",
             "map": [
                 {
