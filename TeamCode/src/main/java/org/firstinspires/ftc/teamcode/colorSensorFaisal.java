@@ -54,9 +54,6 @@ public class colorSensorFaisal extends LinearOpMode {
         colorFront = hardwareMap.get(ColorSensor.class, "CF");
         colorBack = hardwareMap.get(ColorSensor.class, "CB");
 
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
-
         waitForStart();
         runtime.reset();
 

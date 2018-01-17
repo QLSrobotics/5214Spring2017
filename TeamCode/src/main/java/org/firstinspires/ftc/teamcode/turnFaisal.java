@@ -36,9 +36,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="driveForward", group="Team5214")
-//@Disabled
-public class driveForward extends LinearOpMode {
+@TeleOp(name="turnFaisal", group="Team5214")
+//Disabled
+public class turnFaisal extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -62,10 +62,8 @@ public class driveForward extends LinearOpMode {
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
 
-
         waitForStart();
         runtime.reset();
-
 
         while (opModeIsActive()) {
 
@@ -73,9 +71,9 @@ public class driveForward extends LinearOpMode {
         }
     }
 
-    private void driveStraight(double power, int time) {
-        leftBack.setPower(power);
-        leftFront.setPower(power);
+    private void turn(double power, int time) {
+        leftBack.setPower(-power);
+        leftFront.setPower(-power);
         rightBack.setPower(power);
         rightFront.setPower(power);
 
