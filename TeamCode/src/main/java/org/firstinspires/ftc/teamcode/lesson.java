@@ -33,47 +33,46 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-
-
-
-@TeleOp(name="armDown", group="Team5214")
+@TeleOp(name="lesson", group="Team5214")
 //@Disabled
-public class armDown extends LinearOpMode {
+public class lesson extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private Servo colorServo;
+    //declared drive motors
+    private DcMotor leftFront;
+    private DcMotor leftBack;
+    private DcMotor rightFront;
+    private DcMotor rightBack;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        colorServo  = hardwareMap.get(Servo.class, "COLORSERVO");
+        //mapping to configuration
+        leftFront  = hardwareMap.get(DcMotor.class, "LF");
+        leftBack = hardwareMap.get(DcMotor.class, "LB");
+        rightFront = hardwareMap.get(DcMotor.class, "RF");
+        rightBack = hardwareMap.get(DcMotor.class, "RB");
+
+        //direction
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
         runtime.reset();
 
-
         while (opModeIsActive()) {
 
-            arm(.25);
+
             telemetry.update();
         }
     }
-    private void arm(double position) {
 
-        colorServo.setPosition(position);
-    }
-    private void sleep(int i){
-        long initial_time = System.currentTimeMillis();
-        while(System.currentTimeMillis()-initial_time <i){
-
-        }
-    }
 }
-
