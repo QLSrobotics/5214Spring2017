@@ -38,8 +38,8 @@ public class armDown_neha extends LinearOpMode {
     }
 
     private void sleep(int i){
-        long initial_time = System.currentTimeMillis();
-        while(System.currentTimeMillis()-initial_time <i){
+        long initial_time = System.currentTimeMillis(); //creates variable that saves the current time in milliseconds
+        while(System.currentTimeMillis()-initial_time <i){ //subtracts the initial time value from the current time to measure elapsed time
 
         }
     }

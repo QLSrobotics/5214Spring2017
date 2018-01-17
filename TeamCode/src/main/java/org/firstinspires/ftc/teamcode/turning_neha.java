@@ -52,6 +52,7 @@ public class turning_neha extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        //hooks up all of these motors with the config file
         leftBack  = hardwareMap.get(DcMotor.class, "LB");
         rightBack = hardwareMap.get(DcMotor.class, "RB");
         leftFront  = hardwareMap.get(DcMotor.class, "LF");
@@ -77,11 +78,12 @@ public class turning_neha extends LinearOpMode {
     }
 
     private void turn(double power, int time){ //left turn is positive power
-        leftBack.setPower(-power);
+        leftBack.setPower(-power); //sets left wheels to move backward
         leftFront.setPower(-power);
-        rightBack.setPower(power);
+        rightBack.setPower(power); // makes right hand wheels to move forward
         rightFront.setPower(power);
-        sleep(time);
+        sleep(time); //those things happen for this amount of time
+        //and then all the wheels stop
         leftBack.setPower(0);
         leftFront.setPower(0);
         rightBack.setPower(0);
@@ -89,8 +91,8 @@ public class turning_neha extends LinearOpMode {
     }
 
     private void sleep(int i){
-        long initial_time = System.currentTimeMillis();
-        while(System.currentTimeMillis()-initial_time <i){
+        long initial_time = System.currentTimeMillis(); //creates variable that saves the current time in milliseconds
+        while(System.currentTimeMillis()-initial_time <i){ //subtracts the initial time value from the current time to measure elapsed time
 
         }
     }

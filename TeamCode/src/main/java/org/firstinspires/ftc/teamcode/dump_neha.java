@@ -51,8 +51,8 @@ public class dump_neha extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        leftDump  = hardwareMap.get(Servo.class, "LD");
-        rightDump = hardwareMap.get(Servo.class, "RD");
+        leftDump  = hardwareMap.get(Servo.class, "LD"); //hooks the leftDump servo to the config file
+        rightDump = hardwareMap.get(Servo.class, "RD"); //hooks RD servo to config file
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -66,14 +66,14 @@ public class dump_neha extends LinearOpMode {
     }
 
     private void dump(double activeLD, double restLD, double activeRD, double restRD){
-        leftDump.setPosition(activeLD);
+        leftDump.setPosition(activeLD); //sets position of the servo
         rightDump.setPosition(activeRD);
         //activeLD = .15, restLD = .7, activeRD = .85, restRD = .3
     }
 
     private void sleep(int i){
-        long initial_time = System.currentTimeMillis();
-        while(System.currentTimeMillis()-initial_time <i){
+        long initial_time = System.currentTimeMillis(); //creates variable that saves the current time in milliseconds
+        while(System.currentTimeMillis()-initial_time <i){ //subtracts the initial time value from the current time to measure elapsed time
 
         }
     }
