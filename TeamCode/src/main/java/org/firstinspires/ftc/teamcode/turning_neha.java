@@ -42,6 +42,7 @@ public class turning_neha extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    //declares motors
     private DcMotor leftBack;
     private DcMotor rightBack;
     private DcMotor leftFront;
