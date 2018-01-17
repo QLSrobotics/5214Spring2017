@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -16,17 +17,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-@Autonomous(name="Basic: Linear OpMode", group="Linear Opmode")
-@Disabled
-public class Cypher_RampStart extends LinearOpMode {
+
+@TeleOp(name="VuforiaCameraTest", group ="Team11920")
+//@Disabled
+public class VuforiaCameraTest extends LinearOpMode {
+
     public static final String TAG = "Vuforia VuMark Sample";
 
     OpenGLMatrix lastLocation = null;
 
     VuforiaLocalizer vuforia;
 
-    @Override
-    public void runOpMode() throws InterruptedException {
+    @Override public void runOpMode() throws InterruptedException{
 
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
@@ -38,7 +40,7 @@ public class Cypher_RampStart extends LinearOpMode {
         // OR...  Do Not Activate the Camera Monitor View, to save power
         // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        //Vuforia LicenseKey
+        //vuforiaLicenseKey
         //do not change the license key
         parameters.vuforiaLicenseKey = "AVOFXuz/////AAAAGf45mZPfQEQBt1NyBSqlPuYQkVhLXgkSQpOqQqWb/FoWqJ" +
                 "WqG7KKeaIVeJzCSsLJ58FGWwE0Z/vvzSHrZBeZN9jN7c+gru1h0T3k0wLaoN1b6bFIHn93evRQ0DcFcgy4uMHZ1" +
@@ -63,13 +65,11 @@ public class Cypher_RampStart extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            //image recognition
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
-                //vuMark is the value of
                 telemetry.addData("VuMark", "%s visible", vuMark);
-                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
+                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
                 telemetry.addData("Pose", format(pose));
 
                 if (pose != null) {
@@ -86,32 +86,16 @@ public class Cypher_RampStart extends LinearOpMode {
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
                 }
-            } else {
+            }
+            else {
                 telemetry.addData("VuMark", "not visible");
             }
 
-            //robot code below
-            //vuMark is stored as an enum, convert to string to get the value
-            String getPosition = vuMark.toString();
-            if (getPosition.equals("CENTER")) {
-
-            } else if (getPosition.equals("LEFT")) {
-
-            } else if (getPosition.equals("RIGHT")) {
-
-            }
-
-            //robot will do nothing when detected value is UNKNOWN
-            else {
-
-            }
-
             telemetry.update();
-
         }
     }
+
     private String format(OpenGLMatrix transformationMatrix) {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
-
 }

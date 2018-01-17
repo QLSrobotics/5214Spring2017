@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="cube_intake", group="Team5214")
-//@Disabled
+@Disabled
 public class cube_intake extends LinearOpMode {
 
     // Declare OpMode members.

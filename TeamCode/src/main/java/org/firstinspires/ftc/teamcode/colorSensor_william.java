@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="colorSensor_william", group="Team5214")
-//@Disabled
+@Disabled
 public class colorSensor_william extends LinearOpMode {
 
     // Declare OpMode members.
