@@ -68,13 +68,12 @@ public class driveForward extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            //autonomous code goes here
-            driveStraight(1, 3000);
-            telemetry.update();
-        }
+        //autonomous code goes here
+        driveStraight(.25, 3000);
+        telemetry.update();
 
     }
-    public void driveStraight(double velocity, int time) {
+    private void driveStraight(double velocity, int time) {
         //velocity is affective when from 0 to 1
         //time is in milliseconds
         leftFront.setPower(velocity);
@@ -87,8 +86,9 @@ public class driveForward extends LinearOpMode {
         rightBack.setPower(0);
         rightFront.setPower(0);
     }
+}
 
-    public void sleep(int i) {
+    private void sleep(int i) {
         long initialTime = System.currentTimeMillis();
         while (System.currentTimeMillis() - initialTime < i) {
 
