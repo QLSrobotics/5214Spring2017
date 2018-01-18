@@ -68,4 +68,30 @@ public class colorSensor extends LinearOpMode {
             telemetry.update();
         }
     }
+    public String checkColor(ColorSensor front, ColorSensor back, double ratio) {
+        double redOverBluFront = front.red()/front.blue(); //red over blue ratio for front color sensor
+        double redOverBluBack = back.red()/back.blue();//red over blue ratio for back color sensor
+        if(redOverBluBack >= ratio && redOverBluFront >= ratio){ //if front is red and back is blue, return red
+            return "RED";
+        }
+        else if (((1/redOverBluBack)>=ratio) && ((redOverBluFront)>=ratio)){ //if front is blue and back is red, return blue
+            return "BLUE";
+        }
+        else if (((1/redOverBluBack)>=ratio) && ((redOverBluFront)<=ratio) && ((redOverBluFront)>=1/ratio)){ //if back is blue and front is unsure, return red
+            return "RED";
+        }
+        else if (((redOverBluBack)>=ratio) && ((redOverBluFront)<=ratio) && ((redOverBluFront)>=1/ratio)){ //if back is red and front is unsure, return blue
+            return "BLUE";
+        }
+        else if (((1/redOverBluFront)>=ratio) && ((redOverBluBack)<=ratio) && ((redOverBluBack)>=1/ratio)){ //if front is blue and back is unsure, return blue
+            return "BLUE";
+        }
+        else if (((redOverBluBack)>=ratio) && ((redOverBluFront)<=ratio) && ((redOverBluFront)>=1/ratio)){ //if front is red and back is unsure, return red
+            return "RED";
+        }
+        else { //if none of the above, we don't know what's happening, so return undefined.
+            return "UNDEF";
+        }
+    }
 }
+
