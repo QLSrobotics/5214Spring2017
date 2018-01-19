@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -13,6 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * Created by hima on 1/17/18.
  */
 
+@TeleOp(name="range_LED", group="testing")
+
 public class rangeLED extends LinearOpMode{
     private DistanceSensor sensorDistance;
     private DigitalChannel digitalPort;
@@ -23,18 +26,23 @@ public class rangeLED extends LinearOpMode{
         // step (using the FTC Robot Controller app on the phone).
         sensorDistance = hardwareMap.get(DistanceSensor.class, "DIST");
         digitalPort = hardwareMap.digitalChannel.get("DIGI");
+        waitForStart();
+
         while (opModeIsActive()){
             digitalPort.setMode(DigitalChannel.Mode.OUTPUT);
 
             double distance = sensorDistance.getDistance(DistanceUnit.CM);
 
-            if(distance > 10){
+            if(distance > 5){
                 digitalPort.setState(true);
 
             } else{
                 digitalPort.setState(false);
 
             }
+
+            telemetry.update();
+            idle();
 
 
         }
