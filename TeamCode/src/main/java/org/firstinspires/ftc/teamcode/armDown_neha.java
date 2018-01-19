@@ -32,7 +32,7 @@ public class armDown_neha extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            arm(.25); //arm up, arm down is .75
+            arm(.5); //arm up, arm down is .75
             telemetry.update();
         }
     }
