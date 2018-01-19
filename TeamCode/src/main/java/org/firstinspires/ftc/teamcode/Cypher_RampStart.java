@@ -65,45 +65,18 @@ public class Cypher_RampStart extends LinearOpMode {
 
             //image recognition
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-
-                //vuMark is the value of
-                telemetry.addData("VuMark", "%s visible", vuMark);
-                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-                telemetry.addData("Pose", format(pose));
-
-                if (pose != null) {
-                    VectorF trans = pose.getTranslation();
-                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-                    double tX = trans.get(0);
-                    double tY = trans.get(1);
-                    double tZ = trans.get(2);
-
-                    // Extract the rotational components of the target relative to the robot
-                    double rX = rot.firstAngle;
-                    double rY = rot.secondAngle;
-                    double rZ = rot.thirdAngle;
-                }
-            } else {
-                telemetry.addData("VuMark", "not visible");
-            }
 
             //robot code below
             //vuMark is stored as an enum, convert to string to get the value
-            String getPosition = vuMark.toString();
-            if (getPosition.equals("CENTER")) {
-
-            } else if (getPosition.equals("LEFT")) {
-
-            } else if (getPosition.equals("RIGHT")) {
-
-            }
-
-            //robot will do nothing when detected value is UNKNOWN
-            else {
-
+            switch (vuMark) {
+                case CENTER:
+                    break;
+                case RIGHT:
+                    break;
+                case LEFT:
+                    break;
+                default:
+                    break;
             }
 
             telemetry.update();
