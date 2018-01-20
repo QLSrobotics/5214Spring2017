@@ -10,9 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name="auton_jan18", group="Team5214")
+@TeleOp(name="jan18_testing", group="Team5214")
 //@Disabled
-public class auton_jan18 extends LinearOpMode {
+public class jan18_testing extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -50,9 +50,16 @@ public class auton_jan18 extends LinearOpMode {
         //mapping color servo to configuration
         colorServo  = hardwareMap.get(Servo.class, "COLORSERVO");
 
+
+
         //mapping color sensor to configuration
         colorFront  = hardwareMap.get(ColorSensor.class, "CSF");
         colorBack = hardwareMap.get(ColorSensor.class, "CSB");
+ /*
+        float hsvValues[] = {0F,0F,0F}; // hsvValues is an array that will hold the hue, saturation, and value information.
+        final float values[] = hsvValues; // values is a reference to the hsvValues array.
+*/
+
 
         //drive motor directions
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -67,7 +74,7 @@ public class auton_jan18 extends LinearOpMode {
         while (opModeIsActive()) {
             arm(.5); //arm up, arm down is .75
             checkColor(colorFront, colorBack, 1.5);
-            telemetry.addLine();
+
             telemetry.update();
         }
     }
