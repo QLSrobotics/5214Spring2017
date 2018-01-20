@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name="jan18_testing", group="Team5214")
+@Autonomous(name="jan18_testing", group="Team5214")
 //@Disabled
 public class jan18_testing extends LinearOpMode {
 
@@ -26,6 +27,7 @@ public class jan18_testing extends LinearOpMode {
     private Servo rightDump;
     // declare color servo
     private Servo colorServo;
+    private String colorid;
     // declare color sensor
     ColorSensor colorFront;
     ColorSensor colorBack;
@@ -50,16 +52,9 @@ public class jan18_testing extends LinearOpMode {
         //mapping color servo to configuration
         colorServo  = hardwareMap.get(Servo.class, "COLORSERVO");
 
-
-
         //mapping color sensor to configuration
         colorFront  = hardwareMap.get(ColorSensor.class, "CSF");
         colorBack = hardwareMap.get(ColorSensor.class, "CSB");
- /*
-        float hsvValues[] = {0F,0F,0F}; // hsvValues is an array that will hold the hue, saturation, and value information.
-        final float values[] = hsvValues; // values is a reference to the hsvValues array.
-*/
-
 
         //drive motor directions
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -72,10 +67,106 @@ public class jan18_testing extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            arm(.5); //arm up, arm down is .75
-            checkColor(colorFront, colorBack, 1.5);
+            arm(0.1);
+
+
+            sleep(1000);
+
+            colorid = checkColor(colorFront, colorBack, 1.25);
+            telemetry.addLine(colorid);
+            telemetry.update();
+
+
+            sleep(1000);
+
+            if(colorid == "BLUE") {
+                turn(.25, 200);
+                sleep(1000);
+                arm(.9);
+                sleep(1000);
+                turn(-.25, 200);
+                sleep(1000);
+                driveStraight(.25, 2000);
+                sleep(1000);
+                turn(-.25,500);
+                sleep(1000);
+                driveStraight(-.25, 500);
+                sleep(1000);
+                driveStraight(.25,250);
+                sleep(1000);
+                dump(.15,.85);
+                sleep(1000);
+                driveStraight(.25, 250);
+                sleep(1000);
+                driveStraight(-.25, 250);
+                sleep(1000);
+                driveStraight(.25, 250);
+                sleep(1000);
+                dump(.7, .3);
+                sleep(1000);
+                sleep(1000);
+                sleep(30000);
+
+            }
+            else if(colorid == "RED") {
+                turn(-.25, 200);
+                sleep(1000);
+                arm(.9);
+                sleep(1000);
+                turn(.25, 200);
+                sleep(1000);
+                driveStraight(.25, 2000);
+                sleep(1000);
+                turn(-.25,500);
+                sleep(1000);
+                driveStraight(-.25, 500);
+                sleep(1000);
+                driveStraight(.25,250);
+                sleep(1000);
+                dump(.15,.85);
+                sleep(1000);
+                driveStraight(.25, 250);
+                sleep(1000);
+                driveStraight(-.25, 250);
+                sleep(1000);
+                driveStraight(.25, 250);
+                sleep(1000);
+                dump(.7, .3);
+                sleep(1000);
+                sleep(1000);
+                sleep(30000);
+            }
+            else if (colorid == "UNDEF") {
+
+                arm(.9);
+                sleep(1000);
+                turn(-.25, 200);
+                sleep(1000);
+                driveStraight(.25, 2000);
+                sleep(1000);
+                turn(-.25,500);
+                sleep(1000);
+                driveStraight(-.25, 500);
+                sleep(1000);
+                driveStraight(.25,250);
+                sleep(1000);
+                dump(.15,.85);
+                sleep(1000);
+                driveStraight(.25, 250);
+                sleep(1000);
+                driveStraight(-.25, 250);
+                sleep(1000);
+                driveStraight(.25, 250);
+                sleep(1000);
+                dump(.7, .3);
+                sleep(1000);
+                sleep(1000);
+                sleep(30000);
+            }
+
 
             telemetry.update();
+            //break;
         }
     }
     private void driveStraight (double power, int time) {
@@ -91,9 +182,21 @@ public class jan18_testing extends LinearOpMode {
         leftFront.setPower(0);
         rightFront.setPower(0);
     }
-    private void dump(double leftActive, double rightActive, double leftRest, double rightRest) {
-        leftDump.setPosition(leftActive);
-        rightDump.setPosition(rightActive);
+    private void turn(double power, int time){ //left turn is positive power
+        leftBack.setPower(-power); //sets left wheels to move backward
+        leftFront.setPower(-power);
+        rightBack.setPower(power); // makes right hand wheels to move forward
+        rightFront.setPower(power);
+        sleep(time); //those things happen for this amount of time
+        //and then all the wheels stop
+        leftBack.setPower(0);
+        leftFront.setPower(0);
+        rightBack.setPower(0);
+        rightFront.setPower(0);
+    }
+    private void dump(double left, double right) {
+        leftDump.setPosition(left);
+        rightDump.setPosition(right);
     }
     private void arm(double position) {
 
@@ -106,12 +209,12 @@ public class jan18_testing extends LinearOpMode {
         }
     }
     public String checkColor(ColorSensor front, ColorSensor back, double ratio) {
-        double redOverBluFront = front.red()/front.blue(); //red over blue ratio for front color sensor
-        double redOverBluBack = back.red()/back.blue();//red over blue ratio for back color sensor
-        if(redOverBluBack >= ratio && redOverBluFront >= ratio){ //if front is red and back is blue, return red
+        double redOverBluFront = (front.red()+1)/(front.blue()+1); //red over blue ratio for front color sensor
+        double redOverBluBack = (back.red()+1)/(back.blue()+1);//red over blue ratio for back color sensor
+        if(1/redOverBluBack >= ratio && redOverBluFront >= ratio){ //if front is red and back is blue, return red
             return "RED";
         }
-        else if (((1/redOverBluBack)>=ratio) && ((redOverBluFront)>=ratio)){ //if front is blue and back is red, return blue
+        else if (((redOverBluBack)>=ratio) && ((1/redOverBluFront)>=ratio)){ //if front is blue and back is red, return blue
             return "BLUE";
         }
         else if (((1/redOverBluBack)>=ratio) && ((redOverBluFront)<=ratio) && ((redOverBluFront)>=1/ratio)){ //if back is blue and front is unsure, return red
@@ -123,7 +226,7 @@ public class jan18_testing extends LinearOpMode {
         else if (((1/redOverBluFront)>=ratio) && ((redOverBluBack)<=ratio) && ((redOverBluBack)>=1/ratio)){ //if front is blue and back is unsure, return blue
             return "BLUE";
         }
-        else if (((redOverBluBack)>=ratio) && ((redOverBluFront)<=ratio) && ((redOverBluFront)>=1/ratio)){ //if front is red and back is unsure, return red
+        else if (((redOverBluFront)>=ratio) && ((redOverBluBack)<=ratio) && ((redOverBluBack)>=1/ratio)){ //if front is red and back is unsure, return red
             return "RED";
         }
         else { //if none of the above, we don't know what's happening, so return undefined.
