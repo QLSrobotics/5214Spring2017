@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -28,11 +30,21 @@ public class manual_2_crtls extends LinearOpMode {
     private DcMotor rBelt;
 
     private Servo colSer;
+    private Servo knckSer;
 
     private Servo align;
 
     private Servo rDum;
     private Servo lDum;
+
+    private DigitalChannel limtTop;
+    private DigitalChannel limtBot;
+
+
+    boolean limtHit = true;
+    boolean go;
+
+    long startTime = 0;
 
 
     @Override
@@ -49,18 +61,26 @@ public class manual_2_crtls extends LinearOpMode {
         rDum = hardwareMap.servo.get("RD");
         lDum = hardwareMap.servo.get("LD");
         colSer =hardwareMap.servo.get("COLORSERVO");
+        knckSer = hardwareMap.servo.get("KNOCKSERVO");
         align = hardwareMap.servo.get("ALIGN1");
 
         lBelt = hardwareMap.dcMotor.get("LBELT");
         rBelt = hardwareMap.dcMotor.get("RBELT");
 
         liftMotor = hardwareMap.dcMotor.get("LIFT");
-        ramp = hardwareMap.dcMotor.get("RMP");
+        ramp = hardwareMap.dcMotor.get("ramp");
+
+        limtTop = hardwareMap.get(DigitalChannel.class, "touch_top");
+        limtBot = hardwareMap.get(DigitalChannel.class, "touch_bot");
+
+        align.setPosition(0);
+
+        knckSer.setPosition(.5);
+        colSer.setPosition(.9);
 
         waitForStart();
 
-        boolean limtHit = true;
-        boolean go;
+
 
         while (opModeIsActive()) {
 
@@ -68,90 +88,49 @@ public class manual_2_crtls extends LinearOpMode {
             //game pad one cotrls
 
             //gp 1 dpad
-            if(gamepad1.dpad_up){lBelt.setPower(.5);rBelt.setPower(-.5);}
-            if(gamepad1.dpad_down){lBelt.setPower(-.5);rBelt.setPower(.5);}
-            if(gamepad1.dpad_left){colSer.setPosition(.5);}
+            if(gamepad1.dpad_up){lBelt.setPower(-.75);rBelt.setPower(.75);}
+            if(gamepad1.dpad_down){lBelt.setPower(.75);rBelt.setPower(-0.75);}
+            if(gamepad1.dpad_left){colSer.setPosition(.9); knckSer.setPosition(.5);}
             if(gamepad1.dpad_right){lBelt.setPower(0);rBelt.setPower(0);}
 
             if(gamepad1.y){ramp.setPower(0.5);
             } else if(gamepad1.x){ramp.setPower(-0.5);
             } else{ramp.setPower(0);}
 
-            if(gamepad1.a){
-                align.setPosition(0);
-                sleep(100);
-                align.setPosition(0.25);
-                sleep(100);
-                align.setPosition(0.35);
-                sleep(100);
-                align.setPosition(0.45);
-                sleep(100);
-                align.setPosition(0.55);
-                sleep(150);
-                align.setPosition(0.7);
-                sleep(150);
-                align.setPosition(0.8);
-                sleep(300);
-                align.setPosition(0.9);
-                sleep(400);
-                align.setPosition(0);
-                sleep(100);
+            if(gamepad1.left_bumper){lDum.setPosition(.15);rDum.setPosition(.85);}
+            if(gamepad1.right_bumper){lDum.setPosition(.7);rDum.setPosition(.3);}
 
-            }
 
-            if(gamepad2.a){
-                align.setPosition(0);
-                sleep(100);
-                align.setPosition(0.25);
-                sleep(100);
-                align.setPosition(0.35);
-                sleep(100);
-                align.setPosition(0.45);
-                sleep(100);
-                align.setPosition(0.55);
-                sleep(150);
-                align.setPosition(0.7);
-                sleep(150);
-                align.setPosition(0.8);
-                sleep(300);
-                align.setPosition(0.9);
-                sleep(400);
-                align.setPosition(0);
-                sleep(100);
-
-            }
+            aButton();
 
             //mecaum
-            leftFront.setPower(curveSqr(((gamepad2.left_trigger - gamepad2.right_trigger)*-.50)-gamepad1.left_stick_y + gamepad1.left_stick_x+ gamepad1.right_stick_x - gamepad2.left_stick_y + gamepad2.left_stick_x+ gamepad2.right_stick_x )*.5);
-            rightFront.setPower(curveSqr(((gamepad2.left_trigger - gamepad2.right_trigger)*-.50)+gamepad1.left_stick_y + gamepad1.left_stick_x+ gamepad1.right_stick_x + gamepad2.left_stick_y + gamepad2.left_stick_x+ gamepad2.right_stick_x)*.5);
-            leftBack.setPower(curveSqr(((-gamepad2.left_trigger + gamepad2.right_trigger)*-.50)-gamepad1.left_stick_y - gamepad1.left_stick_x+ gamepad1.right_stick_x - gamepad2.left_stick_y - gamepad2.left_stick_x+ gamepad2.right_stick_x)*.5);
-            rightBack.setPower(curveSqr(((-gamepad2.left_trigger + gamepad2.right_trigger)*-.50)+gamepad1.left_stick_y - gamepad1.left_stick_x+ gamepad1.right_stick_x + gamepad2.left_stick_y - gamepad2.left_stick_x+ gamepad2.right_stick_x)*.5);
+            leftFront.setPower(curveSqr(((gamepad2.left_trigger - gamepad2.right_trigger)*-0.5)-gamepad1.left_stick_y + gamepad1.left_stick_x+ gamepad1.right_stick_x - gamepad2.left_stick_y + gamepad2.left_stick_x+ gamepad2.right_stick_x )*.5
+                    +(-curveSqr(gamepad1.left_trigger)*.4 + curveSqr(gamepad1.right_trigger)*0.4));
+            rightFront.setPower(curveSqr(((gamepad2.left_trigger - gamepad2.right_trigger)*-0.5)+gamepad1.left_stick_y + gamepad1.left_stick_x+ gamepad1.right_stick_x + gamepad2.left_stick_y + gamepad2.left_stick_x+ gamepad2.right_stick_x)*.5
+                    -(-curveSqr(gamepad1.left_trigger)*.4 + curveSqr(gamepad1.right_trigger)*0.4));
+            leftBack.setPower(curveSqr(((-gamepad2.left_trigger + gamepad2.right_trigger)*-0.5)-gamepad1.left_stick_y - gamepad1.left_stick_x+ gamepad1.right_stick_x - gamepad2.left_stick_y - gamepad2.left_stick_x+ gamepad2.right_stick_x)*.5
+                    -(-curveSqr(gamepad1.left_trigger)*.4 + curveSqr(gamepad1.right_trigger)*0.4));
+            rightBack.setPower(curveSqr(((-gamepad2.left_trigger + gamepad2.right_trigger)*-0.5)+gamepad1.left_stick_y - gamepad1.left_stick_x+ gamepad1.right_stick_x + gamepad2.left_stick_y - gamepad2.left_stick_x+ gamepad2.right_stick_x)*.5
+                    +(-curveSqr(gamepad1.left_trigger)*.4 + curveSqr(gamepad1.right_trigger)*0.4));
 
 
 
             //elevator controls
-            if((gamepad2.b) && (limtHit=false)){
-                go = true;
-            }
-
-            if((go=true) && (limtHit=false)){
-                liftMotor.setPower(-.5);
-            }
+            if(gamepad2.y || (gamepad2.y && limtBot.getState()==false)){ liftMotor.setPower(-1);}
+            else if (gamepad2.b || (gamepad2.b && limtTop.getState()==false)){liftMotor.setPower(1);}
+            else if(limtTop.getState()==false || limtBot.getState()==false){liftMotor.setPower(0);}
 
 
 
             //game pd ywo d pad
-            if(gamepad2.dpad_up){lBelt.setPower(.5);rBelt.setPower(-.5);}
-            if(gamepad2.dpad_down){lBelt.setPower(-.5);rBelt.setPower(.5);}
+            if(gamepad2.dpad_up){lBelt.setPower(-.75);rBelt.setPower(.75);}
+            if(gamepad2.dpad_down){lBelt.setPower(.75);rBelt.setPower(-.75);}
             if(gamepad2.dpad_left){liftMotor.setPower(0);}
             if(gamepad2.dpad_right){lBelt.setPower(0);rBelt.setPower(0);}
 
 
-            //servo Y up gamepad 2
-            if(gamepad2.y){ lDum.setPosition(.15); rDum.setPosition(.85);}
-
-            //servo X down gamepad 2
-            if(gamepad2.x){lDum.setPosition(.7); rDum.setPosition(.3);}
+            if(gamepad2.left_bumper){lDum.setPosition(.15);rDum.setPosition(.85);}
+            if(gamepad2.right_bumper){lDum.setPosition(.7);rDum.setPosition(.3);}
 
 
 
@@ -171,6 +150,37 @@ public class manual_2_crtls extends LinearOpMode {
         long initial_time = System.currentTimeMillis(); //creates variable that saves the current time in milliseconds
         while(System.currentTimeMillis()-initial_time <i){ //subtracts the initial time value from the current time to measure elapsed time
 
+        }
+    }
+
+    private void setPos(long in, long out, double algin, long sTime ){
+        if((System.currentTimeMillis() >= (in+sTime)) && (System.currentTimeMillis() <= (out+sTime))){
+            align.setPosition(algin);
+        }
+    }
+
+    private void aButton(){
+        if (gamepad1.a){
+            startTime = System.currentTimeMillis();
+            align.setPosition(0);
+            lBelt.setPower(0);
+            rBelt.setPower(0);
+        }
+
+        setPos(100,300,.4,startTime);
+        setPos(300,500,.6,startTime);
+        setPos(500,700,.45,startTime);
+        setPos(900,1300,.8,startTime);
+        setPos(1300,1500,.45,startTime);
+        setPos(1500,1900,.9,startTime);
+        setPos(1900,2200,.45,startTime);
+        setPos(2200,2500,.9,startTime);
+
+
+        if((System.currentTimeMillis() > (startTime+2500)) && (System.currentTimeMillis() < (startTime+3000))) {
+            align.setPosition(0);
+//            lBelt.setPower(1);
+//            rBelt.setPower(-1);
         }
     }
 
